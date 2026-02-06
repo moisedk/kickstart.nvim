@@ -157,7 +157,7 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 10
+vim.o.scrolloff = 50
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -268,9 +268,43 @@ require('lazy').setup({
   --            })
   --        end,
   --    }
+  -- Custom-added plugins BEGIN
+
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('neo-tree').setup {
+        filesystem = {
+          window = {
+            mappings = {
+              --            ['\\'] = 'reveal_force_cwd',
+            },
+          },
+        },
+      }
+      vim.keymap.set('n', '\\', ':Neotree filesystem toggle<CR>', { silent = true })
+    end,
+  },
+
+  --auto-pairs for brackets and strings
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
+
+  --Custom-added plugin END
   --
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`.
+  -- Here is a more advanced example where we pass configuration options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -281,7 +315,7 @@ require('lazy').setup({
         change = { text = '~' },
         delete = { text = '_' },
         topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        changedelete = { text = '~-' },
       },
     },
   },
