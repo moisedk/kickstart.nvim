@@ -693,7 +693,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -709,6 +709,8 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
       })
+      -- Exclude ts_ls from Mason installation
+      ensure_installed = vim.tbl_filter(function(name) return name ~= 'ts_ls' end, ensure_installed)
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
