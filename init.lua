@@ -269,6 +269,63 @@ require('lazy').setup({
   --        end,
   --    }
   -- Custom-added plugins BEGIN
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    branch = 'main',
+    dependencies = {
+      'zbirenbaum/copilot.lua',
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('CopilotChat').setup {
+        -- Your config here (optional)
+      }
+    end,
+    keys = {
+      { '<leader>cc', ':CopilotChat ', desc = 'CopilotChat - Prompt' },
+      { '<leader>cq', ':CopilotChatToggle<CR>', desc = 'CopilotChat - Toggle' },
+    },
+  },
+
+  {
+    'zbirenbaum/copilot.lua',
+    dependencies = {
+      'copilotlsp-nvim/copilot-lsp',
+    },
+    cmd = 'Copilot',
+    event = 'InsertEnter',
+    config = function()
+      require('copilot').setup {
+        panel = {
+          enabled = true,
+          auto_refresh = false,
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          keymap = {
+            accept = '<M-l>', -- Alt+l to accept
+            next = '<M-]>',
+            prev = '<M-[>',
+            dismiss = '<C-]>',
+          },
+        },
+        filetypes = {
+          yaml = false,
+          markdown = false,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          --['.'] = false,
+          -- Enable for everything else
+          ['*'] = true,
+        },
+      }
+    end,
+  },
 
   {
     'nvim-neo-tree/neo-tree.nvim',
